@@ -1,0 +1,24 @@
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Especie</th>
+        <th>Tipo</th>
+        <th>Género</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let char of characters" (click)="select(char)">
+      <td>{{ char.name }}</td>
+      <td>{{ char.species }}</td>
+      <td>{{ char.gender }}</td>
+      <td>{{ char.status }}</td>
+        <td>
+          <button (click)="addToFavorites(char)">❤️ Favorito</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

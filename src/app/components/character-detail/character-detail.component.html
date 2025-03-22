@@ -1,0 +1,13 @@
+<div *ngIf="character">
+  <h2>{{ character.name }}</h2>
+  <img [src]="character.image" [alt]="character.name" class="character-image" />
+
+  <p><strong>Especie:</strong> {{ character.species }}</p>
+  <p><strong>Tipo:</strong> {{ character.type || 'Sin Tipo' }}</p>
+  <p><strong>Género:</strong> {{ character.gender }}</p>
+  <p><strong>Origen:</strong> {{ character.origin?.name === 'unknown' ? 'Desconocido' : character.origin?.name }}</p>
+</div>
+
+<div *ngIf="!character">
+  <p>Selecciona un personaje para ver los detalles.</p>
+</div>

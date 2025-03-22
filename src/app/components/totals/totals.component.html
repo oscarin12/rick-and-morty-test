@@ -1,0 +1,23 @@
+<h3>Totales de Personajes</h3>
+
+<div *ngIf="totals">
+  <div class="totals-container">
+    <div>
+      <h4>Por Especie</h4>
+      <ul>
+        <li *ngFor="let species of totals.species | keyvalue">
+          {{ species.key }}: {{ species.value }}
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Por Tipo</h4>
+      <ul>
+        <li *ngFor="let type of totals.type | keyvalue">
+          {{ type.key }}: {{ type.value }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

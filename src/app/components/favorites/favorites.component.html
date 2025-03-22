@@ -1,0 +1,7 @@
+<div *ngIf="favoriteCharacter" class="favorite-container">
+  <h2>⭐ Personaje Favorito</h2>
+  <div class="favorite-card" (click)="showFavorite()">
+    <img [src]="favoriteCharacter.image" [alt]="favoriteCharacter.name" />
+    <p>{{ favoriteCharacter.name }}</p>
+  </div>
+</div>
