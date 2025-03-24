@@ -1,24 +1,44 @@
+<!-- Botón para mostrar/ocultar filtros -->
+<button mat-button (click)="toggleFilters()" class="filter-button">🔍 Filtrar</button>
+<br>
+<!-- Contenedor de filtros (oculto por defecto) -->
+<div class="filters" *ngIf="showFilters">
+  <input type="text" placeholder="Buscar por nombre..." [(ngModel)]="nameFilter">
+  <input type="text" placeholder="Buscar por especie..." [(ngModel)]="speciesFilter">
+  <input type="text" placeholder="Buscar por tipo..." [(ngModel)]="typeFilter">
+  <input type="text" placeholder="Buscar por género..." [(ngModel)]="genderFilter">
+</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Especie</th>
-        <th>Tipo</th>
-        <th>Género</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let char of characters" (click)="select(char)">
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Especie</th>
+      <th>Tipo</th>
+      <th>Género</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let char of filteredCharacters()" (click)="select(char)">
       <td>{{ char.name }}</td>
       <td>{{ char.species }}</td>
+      <td>{{ char.type || 'Sin Tipo' }}</td>
       <td>{{ char.gender }}</td>
-      <td>{{ char.status }}</td>
-        <td>
-          <button (click)="addToFavorites(char)">❤️ Favorito</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
+      <td>
+        <button  mat-flat-button (click)="addToFavorites(char)">❤️ Favorito</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
+
+
+<!-- 🔹 Paginador de Angular Material -->
+<mat-paginator 
+  [length]="totalItems" 
+  [pageSize]="pageSize" 
+  [pageSizeOptions]="[10, 20, 50]" 
+  (page)="onPageChange($event)">
+</mat-paginator>
