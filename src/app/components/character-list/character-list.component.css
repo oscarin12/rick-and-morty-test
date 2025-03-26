@@ -1,13 +1,65 @@
-.filters {
+/* 🔹 Ajustes generales para móviles */
+body {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* 🔹 Hacer que la tabla sea responsiva */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 🔹 Ocultar columnas menos importantes en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  th:nth-child(3), td:nth-child(3),  /* Oculta columna Tipo */
+  th:nth-child(4), td:nth-child(4) { /* Oculta columna Género */
+    display: none;
+  }
+  
+  /* 🔹 Hacer que la tabla se desplace horizontalmente */
+  .table-container {
+    overflow-x: auto;
+  }
+
+  /* 🔹 Ajustar botones y filtros */
+  .filters {
     display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
   }
-  
+
   .filters input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
   }
-  
+
+  /* 🔹 Mejorar el paginador en móviles */
+  mat-paginator {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filters input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+

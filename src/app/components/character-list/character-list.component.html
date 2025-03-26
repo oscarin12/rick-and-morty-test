@@ -3,42 +3,47 @@
 <br>
 <!-- Contenedor de filtros (oculto por defecto) -->
 <div class="filters" *ngIf="showFilters">
-  <input type="text" placeholder="Buscar por nombre..." [(ngModel)]="nameFilter">
-  <input type="text" placeholder="Buscar por especie..." [(ngModel)]="speciesFilter">
-  <input type="text" placeholder="Buscar por tipo..." [(ngModel)]="typeFilter">
-  <input type="text" placeholder="Buscar por género..." [(ngModel)]="genderFilter">
+  <input type="text" placeholder="Buscar por nombre..." [(ngModel)]="filters.name">
+  <input type="text" placeholder="Buscar por especie..." [(ngModel)]="filters.species">
+  <input type="text" placeholder="Buscar por tipo..." [(ngModel)]="filters.type">
+  <input type="text" placeholder="Buscar por género..." [(ngModel)]="filters.gender">
+  <button mat-button (click)="applyFilters()">🔍 Aplicar Filtros</button>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Especie</th>
-      <th>Tipo</th>
-      <th>Género</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let char of filteredCharacters()" (click)="select(char)">
-      <td>{{ char.name }}</td>
-      <td>{{ char.species }}</td>
-      <td>{{ char.type || 'Sin Tipo' }}</td>
-      <td>{{ char.gender }}</td>
-      <td>
-        <button  mat-flat-button (click)="addToFavorites(char)">❤️ Favorito</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+
+
 <br>
 
-
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Especie</th>
+        <th>Tipo</th> <!-- 🔹 Se oculta en móviles -->
+        <th>Género</th> <!-- 🔹 Se oculta en móviles -->
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let char of characters" (click)="select(char)">
+        <td>{{ char.name }}</td>
+        <td>{{ char.species }}</td>
+        <td>{{ char.type || 'Sin Tipo' }}</td>
+        <td>{{ char.gender }}</td>
+        <td>
+          <button mat-flat-button (click)="addToFavorites(char)">❤️ Favorito</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <!-- 🔹 Paginador de Angular Material -->
 <mat-paginator 
   [length]="totalItems" 
-  [pageSize]="pageSize" 
- 
+  [pageSize]="20" 
+  [pageSizeOptions]="[20]" 
+  [pageIndex]="currentPage - 1" 
   (page)="onPageChange($event)">
 </mat-paginator>

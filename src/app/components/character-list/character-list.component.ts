@@ -1,10 +1,10 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RickAndMortyService } from '../../services/rick-and-morty.service';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-character-list',
@@ -18,23 +18,36 @@ export class CharacterListComponent implements OnInit {
   totalItems: number = 0; // 🔹 Total de personajes en la API
   pageSize: number = 20; // 🔹 Cantidad de personajes por página
   currentPage: number = 1; // 🔹 Página actual
-    // Variables para los filtros
-    nameFilter: string = '';
-    speciesFilter: string = '';
-    typeFilter: string = '';
-    genderFilter: string = '';
-    showFilters: boolean = false; // 🔹 Controla si los filtros están visibles
+  totalPages: number = 1; // 🔹 Total de páginas disponibles
 
+    // Variables para los filtros
+     // 🔹 Filtros para la API
+  // 🔹 Filtros en un solo objeto (ahora bien tipado)
+  filters: { name: string; species: string; type: string; gender: string } = {
+    name: '',
+    species: '',
+    type: '',
+    gender: ''
+  };
+    showFilters: boolean = false; // 🔹 Controla si los filtros están visibles
+   
+   
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() selectCharacter = new EventEmitter<any>();
   @Output() totalsUpdated = new EventEmitter<{ species: any; type: any }>(); // 🔹 Evento para enviar los totales
   @Output() favoriteCharacter = new EventEmitter<any>(); // 🔹 Evento para favoritos
+  
+  
   constructor(private apiService: RickAndMortyService) {}
+
+
+
   ngOnInit(): void {
     this.getCharacters(this.currentPage);
   }
 
   getCharacters(page: number): void {
-    this.apiService.getCharacters(page).subscribe({
+    this.apiService.getCharacters(page, this.filters).subscribe({
       next: (data: { results: any[], info: { pages: number, count: number } }) => {
         this.characters = data.results.map(char => ({
           ...char,
@@ -42,18 +55,40 @@ export class CharacterListComponent implements OnInit {
           gender: char.gender === 'unknown' ? 'Desconocido' : char.gender,
           status: char.status === 'unknown' ? 'Desconocido' : char.status
         }));
-        this.totalItems = data.info.count; // 🔹 Total de personajes
+  
+        this.totalItems = data.info.count; // 🔹 Total de personajes en la API
+        this.totalPages = data.info.pages; // 🔹 Total de páginas
+  
+        console.log('✅ Página actual:', this.currentPage, '| Total páginas:', this.totalPages);
         this.calculateTotals();
       },
       error: (err: any) => console.error('❌ Error al obtener datos:', err)
     });
   }
-  // 🔹 Método para manejar el cambio de página con `mat-paginator`
+  
+
+  applyFilters() {
+    this.currentPage = 1;
+    console.log('✅ Aplicando filtros:', this.filters); // 🔍 Verifica en consola los filtros aplicados
+    this.getCharacters(this.currentPage); // 🔹 Llamar a la API solo cuando el usuario haga clic
+  }
+  
+
   onPageChange(event: any) {
-    this.currentPage = event.pageIndex + 1; // 🔹 `mat-paginator` usa índice base 0, por eso sumamos 1
-    this.pageSize = event.pageSize;
+    const newPage = event.pageIndex + 1;
+  
+    if (newPage > this.totalPages) {
+      console.warn('⚠ Intentaste ir más allá de la última página.');
+      return;
+    }
+  
+    this.currentPage = newPage;
+    console.log('📌 Cambiando a la página:', this.currentPage);
     this.getCharacters(this.currentPage);
   }
+  
+  
+  
   select(char: any) {
     this.selectCharacter.emit(char);
   }
@@ -85,12 +120,6 @@ export class CharacterListComponent implements OnInit {
   toggleFilters() {
     this.showFilters = !this.showFilters;
   }
-  // 🔹 Función que filtra los personajes según los inputs
-  filteredCharacters() {
-    return this.characters.filter(char =>
-      char.name.toLowerCase().includes(this.nameFilter.toLowerCase()) &&
-      char.species.toLowerCase().includes(this.speciesFilter.toLowerCase()) &&
-      (char.type?.toLowerCase() || 'sin tipo').includes(this.typeFilter.toLowerCase()) &&
-      char.gender.toLowerCase().includes(this.genderFilter.toLowerCase())
-    ); }
+
+  
 }

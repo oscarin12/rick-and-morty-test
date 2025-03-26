@@ -1,17 +1,67 @@
+/* 🔹 Contenedor principal */
 .totals-container {
-    display: flex;
-    justify-content: space-between;
-  }
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 15px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Diseño en desktop */
+.totals-grid {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* 🔹 Tarjetas de totales */
+.totals-card {
   
-  ul {
-    list-style: none;
-    padding: 0;
+  color: rgb(5, 0, 0);
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: 250px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Estilos de texto */
+.totals-card h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 5px;
+}
+
+/* 🔹 Lista de elementos */
+.totals-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.totals-card li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 16px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+/* 🔹 Responsivo para móviles */
+@media screen and (max-width: 768px) {
+  .totals-grid {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  li {
-    background: #f8f9fa;
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 5px;
+
+  .totals-card {
+    width: 90%;
   }
-  
+}

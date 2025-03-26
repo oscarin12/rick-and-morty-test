@@ -1,21 +1,23 @@
-<h3>Totales de Personajes</h3>
+<div class="totals-container">
+  <h3>📊 Totales de Personajes</h3>
 
-<div *ngIf="totals">
-  <div class="totals-container">
-    <div>
-      <h4>Por Especie</h4>
+  <div *ngIf="totals" class="totals-grid">
+    <div class="totals-card">
+      <h4>🦸‍♂️ Por Especie</h4>
       <ul>
         <li *ngFor="let species of totals.species | keyvalue">
-          {{ species.key }}: {{ species.value }}
+          <span class="label">{{ species.key }}:</span>
+          <span class="value">{{ species.value }}</span>
         </li>
       </ul>
     </div>
 
-    <div>
-      <h4>Por Tipo</h4>
+    <div class="totals-card">
+      <h4>🧬 Por Tipo</h4>
       <ul>
         <li *ngFor="let type of totals.type | keyvalue">
-          {{ type.key }}: {{ type.value }}
+          <span class="label">{{ type.key }}:</span>
+          <span class="value">{{ type.value }}</span>
         </li>
       </ul>
     </div>
